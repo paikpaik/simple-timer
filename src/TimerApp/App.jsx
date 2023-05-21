@@ -1,3 +1,8 @@
+/*
+  *****************************************************************************
+  *                         redux만을 이용한 상태관리                          *
+  ***************************************************************************** 
+*/
 import React, { useEffect, useRef, useMemo } from "react";
 import { useDispatch, Provider, useSelector } from "react-redux";
 import { createStore } from "redux";
@@ -192,6 +197,180 @@ function Counter() {
     </Container>
   );
 }
+
+/*
+  *****************************************************************************
+  *                      redux-toolikt을 이용한 상태관리                       *
+  ***************************************************************************** 
+*/
+/*
+import React, { useRef, useMemo, useEffect } from "react";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
+import styled from "styled-components";
+
+const initialState = {
+  isRunning: false,
+  startTime: 10,
+  currentTime: 10,
+  duration: 1000,
+};
+
+const palette = ["hotpink", "aquamarine", "coral", "cyan"];
+
+// reducers 를 완성.
+const timerSlice = createSlice({
+  name: "timer",
+  initialState,
+  reducers: {
+    reset(state, action){
+      state.isRunning = false
+      state.currentTime = state.startTime
+    },
+    start(state, action){
+      state.isRunning = true
+    },
+    stop(state, action){
+      state.isRunning = false
+    },
+    tick(state, action){
+      state.currentTime -= 1
+      state.isRunning = state.currentTime > 0
+    },
+    setDuration(state, action){
+      state.duration = action.payload.duration
+    },
+    setStartTime(state, action){
+      const { startTime } = action.payload
+      state.startTime = startTime
+      state.currentTime = startTime
+    },
+  },
+});
+
+// reducer를 slice에서 생성한 리듀서로 변경.
+const store = configureStore({ reducer: timerSlice.reducer });
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+  );
+}
+
+const {
+  start,
+  stop,
+  reset,
+  setDuration,
+  setStartTime,
+  tick: tickTimer
+} = timerSlice.actions
+
+const durationSelector = (state) => state.duration;
+const currentTimeSelector = (state) => state.currentTime;
+const isRunningSelector = (state) => state.isRunning;
+const startTimeSelector = (state) => state.startTime;
+
+function Counter() {
+  const startTimeInputRef = useRef();
+  const durationInputRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const duration = useSelector(durationSelector);
+  const currentTime = useSelector(currentTimeSelector);
+  const isRunning = useSelector(isRunningSelector);
+  const startTime = useSelector(startTimeSelector);
+
+  const handleStop = () => dispatch(stop());
+  const handleReset = () => dispatch(reset());
+  const handleTimer = () => dispatch(start());
+
+  useEffect(() => {
+    if (!isRunning) return;
+    let timerId = null;
+
+    const tick = () => {
+      timerId = setTimeout(() => {
+        if (!isRunning) return;
+        dispatch(tickTimer());
+        tick();
+      }, duration);
+    };
+
+    tick();
+
+    return () => clearTimeout(timerId);
+  }, [dispatch, duration, isRunning]);
+
+  const isResetted = useMemo(() => currentTime === startTime, [
+    startTime,
+    currentTime,
+  ]);
+
+  const isDone = useMemo(() => currentTime === 0, [currentTime]);
+
+  return (
+    <Container>
+      <Time duration={duration} currentTime={currentTime} stopped={!isRunning}>
+        {currentTime}
+      </Time>
+
+      <Button onClick={handleStop} disabled={!isRunning}>
+        Stop
+      </Button>
+
+      <Button onClick={handleReset} disabled={isRunning || isResetted}>
+        Reset
+      </Button>
+
+      <Button onClick={handleTimer} disabled={isRunning || isDone}>
+        Start
+      </Button>
+
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const duration = Number(durationInputRef.current.value);
+          dispatch(setDuration({ duration }));
+          dispatch(reset());
+        }}
+      >
+        <label htmlFor="duration">Duration(ms)</label>
+        <input
+          ref={durationInputRef}
+          id="duration"
+          type="text"
+          name="duration"
+          defaultValue={duration}
+        />
+        <input type="submit" value="Set" disabled={isRunning} />
+      </Form>
+
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const startTime = Number(startTimeInputRef.current.value);
+          dispatch(setStartTime({ startTime }));
+          dispatch(reset());
+        }}
+      >
+        <label htmlFor="duration">Start Time(sec)</label>
+        <input
+          ref={startTimeInputRef}
+          id="start-time"
+          type="text"
+          name="start-time"
+          defaultValue={startTime}
+        />
+        <input type="submit" value="Set" disabled={isRunning} />
+      </Form>
+    </Container>
+  );
+}
+*/
 
 const Button = styled.button`
   display: block;
