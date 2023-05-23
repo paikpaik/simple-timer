@@ -3,6 +3,7 @@
   *                         redux만을 이용한 상태관리                          *
   ***************************************************************************** 
 */
+/*
 import React, { useEffect, useRef, useMemo } from "react";
 import { useDispatch, Provider, useSelector } from "react-redux";
 import { createStore } from "redux";
@@ -197,13 +198,12 @@ function Counter() {
     </Container>
   );
 }
-
-/*
-  *****************************************************************************
-  *                      redux-toolikt을 이용한 상태관리                       *
-  ***************************************************************************** 
 */
 /*
+  *****************************************************************************
+  *                      redux-toolkit을 이용한 상태관리                       *
+  ***************************************************************************** 
+*/
 import React, { useRef, useMemo, useEffect } from "react";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
@@ -370,7 +370,7 @@ function Counter() {
     </Container>
   );
 }
-*/
+
 
 const Button = styled.button`
   display: block;
